@@ -1,0 +1,55 @@
+jenkins:
+  systemMessage: "Operations center configured using CloudBees CasC"
+  numExecutors: 1
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+      users:
+      - id: "admin"
+        name: "admin"
+        properties:
+        - "apiToken"
+        - mailer:
+            emailAddress: "admin@example.com"
+        - blueSteelRedirectOptOutProperty:
+            optOut: true
+        - preferredProvider:
+            providerId: "default"
+  authorizationStrategy: "cloudBeesRoleBasedAccessControl" 
+security:
+  securitySettingsEnforcement:
+    global:
+      realmAndAuthorization:
+        canCustomMapping: false
+        canOverride: true
+        defaultMappingFactory: "restrictedEquivalentRAMF"
+  controllerExecutorCount:
+    enforce:
+      canOverride: false
+      count: 0
+cloudBeesCasCServer:
+  visibility: true 
+unclassified:
+  cascAutoControllerProvisioning:
+    provisionControllerOnCreation: true 
+    fireAndForget: true 
+    initialDelay: 15  
+    timeout: 600 
+    duration: 60 
+  location:
+    url: https://operations-center:8888/ 
+  bundleStorageService: 
+    activated: true
+    activeBundle:
+      name: "local-folder"
+      retriever:
+        SCM:
+          scmSource:
+            git:
+              id: "acf88621-05a0-4d50-9166-d7767868dc43"
+              remote: "https://github.com/my-company/repo.git"
+              traits:
+              - "gitBranchDiscovery"
+    pollingPeriod: 0
+    purgeOnDeactivation: false
